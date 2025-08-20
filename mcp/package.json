@@ -1,0 +1,60 @@
+{
+  "name": "api-snippet-generator-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for API Snippet Generator - exposes snippet generation and marketplace tools to AI assistants and IDEs",
+  "type": "module",
+  "main": "mcp-server.js",
+  "bin": {
+    "api-snippet-mcp": "./mcp-server.js"
+  },
+  "scripts": {
+    "build": "tsc mcp-server.ts --outDir dist --target es2022 --module esnext --moduleResolution bundler --allowSyntheticDefaultImports",
+    "start": "node dist/mcp-server.js",
+    "dev": "tsx mcp-server.ts",
+    "test": "echo \"Testing MCP server with mcp list tools\" && echo '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/list\",\"params\":{}}' | node dist/mcp-server.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.5.0",
+    "axios": "^1.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "api-documentation",
+    "code-generation",
+    "ai-tools",
+    "claude",
+    "openai"
+  ],
+  "author": "API Snippet Generator Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/api-snippet-generator"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "mcp": {
+    "server": {
+      "name": "api-snippet-generator",
+      "version": "1.0.0",
+      "description": "Generate and browse API documentation snippets",
+      "tools": [
+        "generate_api_snippet",
+        "browse_marketplace", 
+        "get_snippet",
+        "save_to_marketplace"
+      ],
+      "resources": [
+        "api://health",
+        "api://stats"
+      ]
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "mcpServers": {
+    "api-snippet-generator": {
+      "command": "node",
+      "args": ["dist/mcp-server.js"],
+      "env": {
+        "API_BASE_URL": "http://localhost:3001/api"
+      },
+      "description": "API Snippet Generator - Generate documentation from GitHub/NPM packages and browse marketplace",
+      "capabilities": {
+        "tools": [
+          {
+            "name": "generate_api_snippet",
+            "description": "Generate API documentation from GitHub/NPM URLs"
+          },
+          {
+            "name": "browse_marketplace", 
+            "description": "Browse and search saved snippets"
+          },
+          {
+            "name": "get_snippet",
+            "description": "Get specific snippet by ID"
+          },
+          {
+            "name": "save_to_marketplace",
+            "description": "Save snippet to community marketplace"
+          }
+        ],
+        "resources": [
+          {
+            "name": "API Health",
+            "uri": "api://health"
+          },
+          {
+            "name": "Marketplace Stats", 
+            "uri": "api://stats"
+          }
+        ]
+      }
+    }
+  }
+}

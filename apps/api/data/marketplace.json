@@ -1,0 +1,199 @@
+[
+  {
+    "metadata": {
+      "vendorName": "ai-moderator",
+      "language": [
+        "javascript",
+        "typescript"
+      ],
+      "topics": [
+        "testing",
+        "examples"
+      ],
+      "lastUpdated": "2025-08-20T16:53:26.704Z",
+      "id": "3809a3ff-7cb5-4e74-af24-11b2be909a03",
+      "description": "# AI Moderator"
+    },
+    "markdown": "# ai-moderator\n\nai-moderator is a package that provides a set of tools for moderating content using AI. It interacts with GitHub Actions and OpenAI API to extract content from events, process it, and perform actions based on the results.\n\n## Installation\n\nAs this is a GitHub repository, you can clone it using the following command:\n\n```bash\ngit clone https://github.com/github/ai-moderator.git\n```\n\n## Configuration  \n\nThe package uses environment variables for configuration. An example of the environment variables needed can be found in the `.env.example` file. Copy this file to `.env` and replace the placeholders with your actual values.\n\n## Authentication\n\nAuthentication is handled through GitHub's built-in mechanisms. You will need to provide a GitHub token as an environment variable:\n\n```bash\nexport GITHUB_TOKEN=your_github_token\n```\n\n## Basic Usage\n\n### Extract Content from Event\n```javascript\nconst { extractFromEvent } = require('ai-moderator');\n\n// Assuming `event` is a GitHub event object\nconst content = await extractFromEvent(event);\n```\n\n### Process Content\n```javascript\nconst { shouldProcess } = require('ai-moderator');\n\n// Assuming `content` is a string extracted from a GitHub event\nconst result = shouldProcess(content);\n\nif (result) {\n  // Perform action based on result\n}\n```\n\n### Error Handling\n```javascript\ntry {\n  const content = await extractFromEvent(event);\n  const result = shouldProcess(content);\n  // Perform action based on result\n} catch (error) {\n  console.error(`Error processing event: ${error.message}`);\n}\n```\n\n## Additional Resources\n- [GitHub Repository](https://github.com/github/ai-moderator)\n\nPlease note that this is a hypothetical example based on the provided analysis. The actual usage may vary depending on the specific implementation of the package.",
+    "originalDataSource": [
+      "github",
+      "docs"
+    ],
+    "originalGenerationMetadata": {
+      "llmModel": "gpt-4",
+      "generatedAt": "2025-08-20T16:51:43.430Z",
+      "dataSource": [
+        "github",
+        "docs"
+      ],
+      "confidence": 0.8075124444629513
+    },
+    "savedAt": "2025-08-20T16:53:26.704Z",
+    "userId": "anonymous"
+  },
+  {
+    "metadata": {
+      "vendorName": "github-api",
+      "language": [
+        "javascript"
+      ],
+      "topics": [
+        "github",
+        "api",
+        "testing",
+        "http-client"
+      ],
+      "lastUpdated": "2025-08-20T16:50:43.749Z",
+      "id": "d9559add-68b2-4892-9e9e-86964fb97e48",
+      "description": "A higher-level wrapper around the Github API."
+    },
+    "markdown": "# GitHub API\n\nGitHub API is a higher-level wrapper around the Github API. It provides a simple and intuitive way to interact with GitHub's data. This package is primarily used to fetch and manipulate data from GitHub.\n\n## Installation\n\n```bash\nnpm install github-api\n```\n\n## Configuration  \n\nThis package requires configuration of username, password, and authentication type during initialization.\n\n```javascript\nconst Github = require('github-api');\n\nlet github = new Github({\n   username: 'your_username',\n   password: 'your_password',\n   auth: 'basic',\n});\n```\n\n## Authentication\n\n```javascript\nlet github = new Github({\n   username: 'your_username',\n   password: 'your_password',\n   auth: 'basic',\n});\n```\n\n## Basic Usage\n\n### Fetch User Data\n```javascript\nlet user = github.getUser();\nuser.getProfile(function(err, profile) { \n    console.log(profile); \n});\n```\n\n### Create a Repository\n```javascript\nlet repo = github.getRepo('your_username', 'your_new_repo');\nrepo.create({\n    name: 'your_new_repo',\n    description: 'This is your new repository',\n    homepage: 'https://github.com',\n    private: false,\n    has_issues: true,\n    has_wiki: true,\n    has_downloads: true\n}, function(err, repo) {\n    console.log(repo);\n});\n```\n\n### Error Handling\n```javascript\nlet user = github.getUser();\nuser.getProfile(function(err, profile) { \n    if(err) {\n        console.error(\"Error fetching profile: \", err);\n        return;\n    }\n    console.log(profile); \n});\n```\n\n### Fetch Repository Data\n```javascript\nlet repo = github.getRepo('username', 'repository');\nrepo.show(function(err, repo) {\n    console.log(repo);\n});\n```\n\n### Delete a Repository\n```javascript\nlet repo = github.getRepo('username', 'repository');\nrepo.deleteRepo(function(err, res) {\n    console.log(res);\n});\n```\n\n## Additional Resources\n- [Official Documentation](https://github.com/github-tools/github)\n- [GitHub Repository](https://github.com/github-tools/github)",
+    "originalDataSource": [
+      "github",
+      "npm",
+      "docs"
+    ],
+    "originalGenerationMetadata": {
+      "llmModel": "gpt-4",
+      "generatedAt": "2025-08-20T16:50:39.657Z",
+      "dataSource": [
+        "github",
+        "npm",
+        "docs"
+      ],
+      "confidence": 0.7694582929627931
+    },
+    "savedAt": "2025-08-20T16:50:43.749Z",
+    "userId": "anonymous"
+  },
+  {
+    "metadata": {
+      "vendorName": "axios",
+      "language": [
+        "javascript"
+      ],
+      "topics": [
+        "xhr",
+        "http",
+        "ajax",
+        "promise",
+        "node",
+        "testing",
+        "examples",
+        "well-documented"
+      ],
+      "lastUpdated": "2025-08-20T16:35:03.082Z",
+      "id": "9d6d9d4f-3903-440b-9ea4-4128ab13dda9",
+      "description": "Promise based HTTP client for the browser and node.js"
+    },
+    "markdown": "# Axios\n\nAxios is a promise-based HTTP client for the browser and Node.js. It provides a simple and consistent interface for interacting with RESTful APIs and includes helpful features like automatic transformation of JSON data.\n\n## Installation\n\n```bash\nnpm install axios\n```\n\n## Configuration  \n\nAxios does not require any special configuration to start using. However, you can create a custom instance of Axios with pre-configured settings.\n\n```javascript\nconst axiosInstance = axios.create({\n  baseURL: 'https://api.example.com',\n  timeout: 1000,\n  headers: {'Authorization': 'Bearer token'}\n});\n```\n\n## Authentication\n\nAxios supports various methods of authentication. Here's an example of Basic Auth:\n\n```javascript\naxios.get('https://api.example.com/user', {\n  auth: {\n    username: 'username',\n    password: 'password'\n  }\n});\n```\n\n## Basic Usage\n\n### Read Operation (GET)\n```javascript\naxios.get('https://api.example.com/user?ID=12345')\n  .then(function (response) {\n    // handle success\n    console.log(response);\n  })\n  .catch(function (error) {\n    // handle error\n    console.log(error);\n  });\n```\n\n### Write Operation (POST)\n```javascript\naxios.post('https://api.example.com/user', {\n  firstName: 'Fred',\n  lastName: 'Flintstone'\n})\n.then(function (response) {\n  console.log(response);\n})\n.catch(function (error) {\n  console.log(error);\n});\n```\n\n### Error Handling\n```javascript\naxios.get('/user/12345')\n  .catch(function (error) {\n    if (error.response) {\n      // The request was made and the server responded with a status code\n      // that falls out of the range of 2xx\n      console.log(error.response.data);\n      console.log(error.response.status);\n      console.log(error.response.headers);\n    } else if (error.request) {\n      // The request was made but no response was received\n      console.log(error.request);\n    } else {\n      // Something happened in setting up the request that triggered an Error\n      console.log('Error', error.message);\n    }\n    console.log(error.config);\n  });\n```\n\n### Additional Operation: Cancel Request\n```javascript\nconst CancelToken = axios.CancelToken;\nconst source = CancelToken.source();\n\naxios.get('/user/12345', {\n  cancelToken: source.token\n}).catch(function (thrown) {\n  if (axios.isCancel(thrown)) {\n    console.log('Request canceled', thrown.message);\n  } else {\n    // handle error\n  }\n});\n\n// cancel the request (the message parameter is optional)\nsource.cancel('Operation canceled by the user.');\n```\n\n## Additional Resources\n- [Official Documentation](https://axios-http.com/)\n- [GitHub Repository](https://github.com/axios/axios)",
+    "originalDataSource": [
+      "github",
+      "npm",
+      "docs"
+    ],
+    "originalGenerationMetadata": {
+      "llmModel": "gpt-4",
+      "generatedAt": "2025-08-20T16:34:53.978Z",
+      "dataSource": [
+        "github",
+        "npm",
+        "docs"
+      ],
+      "confidence": 0.8213446494152565
+    },
+    "savedAt": "2025-08-20T16:35:03.082Z",
+    "userId": "anonymous"
+  },
+  {
+    "metadata": {
+      "vendorName": "twilio-cli",
+      "language": [
+        "javascript",
+        "typescript"
+      ],
+      "topics": [
+        "oclif",
+        "testing",
+        "examples",
+        "well-documented"
+      ],
+      "lastUpdated": "2025-08-20T15:44:29.826Z",
+      "id": "0c5f5c33-4bed-4e85-aa05-c367b71c1c2f",
+      "description": "Unleash the power of Twilio from your command prompt. Visit https://twil.io/cli for don."
+    },
+    "markdown": "# Twilio-CLI\n\nTwilio-CLI is a powerful command-line interface that allows developers to interact with Twilio services. It provides commands for sending emails, listing debugger logs, and managing configurations.\n\n## Installation\n\n```bash\nnpm install twilio-cli\n```\n\n## Configuration  \n\nThe application requires Node.js version 20.0.0 or higher. The configuration for the application is managed through the `oclif` field in the `package.json`.\n\n## Authentication\n\n```bash\ntwilio login\n```\nYou will be prompted to enter your Twilio Account SID and Auth Token, which can be found in your Twilio Console.\n\n## Basic Usage\n\n### Read Operation: List Profiles\n```bash\ntwilio profiles:list\n```\nThis command is used to list all the profiles.\n\n### Write Operation: Send Email\n```bash\ntwilio email:send --to=\"example@example.com\" --from=\"your-email@example.com\" --subject=\"Hello\" --text=\"Hello, World!\"\n```\nThis command sends an email using the specified parameters.\n\n### Error Handling\n```javascript\ntry {\n  await this.run();\n} catch (err) {\n  console.error(`Error: ${err.message}`);\n}\n```\nThis is a basic error handling example where any errors thrown during the execution of the command are caught and logged.\n\n### Additional Operation: List Debugger Logs\n```bash\ntwilio debugger:logs:list\n```\nThis command is used to list all debugger logs.\n\n### Additional Operation: Set Configuration\n```bash\ntwilio config:set API_KEY your-api-key\n```\nThis command is used to set a configuration value.\n\n## Additional Resources\n- [Official Documentation](https://www.twilio.com/docs/quickstart/nodejs)\n- [GitHub Repository](https://github.com/twilio/twilio-cli)",
+    "originalDataSource": [
+      "github",
+      "npm",
+      "docs"
+    ],
+    "originalGenerationMetadata": {
+      "llmModel": "gpt-4",
+      "generatedAt": "2025-08-20T15:41:48.152Z",
+      "dataSource": [
+        "github",
+        "npm",
+        "docs"
+      ],
+      "confidence": 0.8247744176159784
+    },
+    "savedAt": "2025-08-20T15:44:29.826Z",
+    "userId": "anonymous"
+  },
+  {
+    "metadata": {
+      "vendorName": "langchain",
+      "language": [
+        "javascript",
+        "typescript",
+        "python"
+      ],
+      "topics": [
+        "llm",
+        "ai",
+        "gpt3",
+        "chain",
+        "prompt",
+        "prompt engineering",
+        "chatgpt",
+        "machine learning"
+      ],
+      "lastUpdated": "2025-08-20T09:53:57.611Z",
+      "id": "ef18acf4-0352-4755-b448-19b9d77c0a89",
+      "description": "Typescript bindings for langchain"
+    },
+    "markdown": "# Langchain API\n\nLangchain API is a TypeScript library that provides developers with the ability to interact with the Langchain service. This service allows tasks such as language model training, text splitting, token generation, and more.\n\n## Installation\n\n```bash\nnpm install langchain\n```\n\n## Configuration  \n\nThe application requires Node.js version 18 or higher and uses Yarn as its package manager, specifically version 3.5.1. The application uses various environment variables, which can be configured using the dotenv package.\n\n```javascript\nrequire('dotenv').config()\n```\n\n## Authentication\n\n```javascript\n// Assuming the API requires a token for authentication\nconst langchain = require('langchain');\nlangchain.setApiKey(process.env.LANGCHAIN_API_KEY);\n```\n\n## Basic Usage\n\n### Read Operation: Get Model\n```javascript\n// Fetch a language model by its ID\nconst model = await langchain.getModel('modelId');\n```\n\n### Write Operation: Create Model  \n```javascript\n// Create a new language model with a specific configuration\nconst model = await langchain.createModel({config});\n```\n\n### Error Handling\n```javascript\n// Handle errors using try-catch\ntry {\n  const model = await langchain.getModel('modelId');\n} catch (error) {\n  console.error(`Failed to fetch model: ${error.message}`);\n}\n```\n\n### Additional Operation: Train Model\n```javascript\n// Train a language model with specific data\nawait langchain.trainModel(model, data);\n```\n\n### Additional Operation: Generate Text\n```javascript\n// Generate text using a trained language model and a specific prompt\nconst text = await langchain.generateText(model, prompt);\n```\n\n## Additional Resources\n- [Official Documentation](https://langchain.ai/docs)\n- [GitHub Repository](https://github.com/langchain-ai/langchainjs)",
+    "originalDataSource": [
+      "github"
+    ],
+    "savedAt": "2025-08-20T09:53:57.611Z",
+    "userId": "anonymous"
+  },
+  {
+    "metadata": {
+      "vendorName": "stripe",
+      "language": [
+        "javascript",
+        "typescript"
+      ],
+      "topics": [
+        "stripe",
+        "payment processing",
+        "credit cards",
+        "api",
+        "testing",
+        "examples"
+      ],
+      "lastUpdated": "2025-08-20T09:44:50.536Z",
+      "id": "232c60fc-f0cd-4c19-acb9-e79b89f551f4",
+      "description": "Stripe API wrapper"
+    },
+    "markdown": "# Stripe Node.js Library\n\nThe Stripe Node.js library provides convenient access to the Stripe API from applications written in server-side JavaScript. It includes a pre-defined set of classes for API resources that initialize themselves dynamically from API responses.\n\n## Installation\n\n```bash\nnpm install stripe\n```\n\n## Configuration  \n\nThe package requires Node.js version 12 or higher. You will need to provide your Stripe secret API key which can be found in your Stripe Dashboard.\n\n## Authentication\n\n```javascript\nconst stripe = require('stripe')('your_stripe_secret_api_key');\n```\n\n## Basic Usage\n\n### Fetch a Customer\n```javascript\nstripe.customers.retrieve('cus_Hb1QJeKClP1B8n')\n  .then(customer => console.log(customer))\n  .catch(error => console.error(error));\n```\n\n### Create a Customer  \n```javascript\nstripe.customers.create({\n  email: 'customer@example.com',\n})\n.then(customer => console.log(customer.id))\n.catch(error => console.error(error));\n```\n\n### Error Handling\n```javascript\nstripe.customers.create({\n  email: 'invalid',\n})\n.then(customer => console.log(customer.id))\n.catch(error => {\n  if (error.type === 'StripeInvalidRequestError') {\n    console.error('Invalid request to Stripe API:', error.message);\n  } else {\n    console.error('Unexpected error:', error.type);\n  }\n});\n```\n\n### Delete a Customer\n```javascript\nstripe.customers.del('cus_Hb1QJeKClP1B8n')\n.then(deletionConfirmation => console.log(deletionConfirmation))\n.catch(error => console.error(error));\n```\n\n### Update a Customer\n```javascript\nstripe.customers.update('cus_Hb1QJeKClP1B8n', {\n  description: 'Updated customer description',\n})\n.then(customer => console.log(customer))\n.catch(error => console.error(error));\n```\n\n## Additional Resources\n- [Official Documentation](https://stripe.com/docs/api)\n- [GitHub Repository](https://github.com/stripe/stripe-node)",
+    "originalDataSource": [
+      "npm"
+    ],
+    "savedAt": "2025-08-20T09:44:50.536Z",
+    "userId": "anonymous"
+  }
+]
