@@ -10,12 +10,12 @@ console.log('GITHUB_TOKEN:', process.env.GITHUB_TOKEN ? 'Found ✅' : 'Not found
 console.log('OPENAI_API_KEY:', process.env.OPENAI_API_KEY ? 'Found ✅' : 'Not found ❌')
 console.log('ANTHROPIC_API_KEY:', process.env.ANTHROPIC_API_KEY ? 'Found ✅' : 'Not found ❌')
 
-// Import and check AI model configuration
+// Import and check AI model configuration from the ACTIVE pipeline
 import fs from 'fs'
 import path from 'path'
-const llmPipelinePath = path.join(__dirname, 'services/llmPipeline.ts')
+const llmPipelinePath = path.join(__dirname, 'services/planCompliantLLMPipeline.ts')
 const llmPipelineContent = fs.readFileSync(llmPipelinePath, 'utf8')
-const modeMatch = llmPipelineContent.match(/const ModeToUse.*?=.*?['"`](\w+)['"`]/)
+const modeMatch = llmPipelineContent.match(/export const ModeToUse.*?=.*?['"`](\w+)['"`]/)
 const ModeToUse = modeMatch?.[1] as 'openai' | 'anthropic' || 'openai'
 
 console.log(`🤖 AI Model: Using ${ModeToUse.toUpperCase()} ${ModeToUse === 'openai' ? '(GPT-4)' : '(Claude)'}`)
@@ -33,7 +33,7 @@ if (!hasRequiredKey) {
   console.error('💡 To fix this:')
   console.error(`   1. Get API key from: ${ModeToUse === 'openai' ? 'https://platform.openai.com' : 'https://console.anthropic.com'}`)
   console.error(`   2. Add to .env file: ${requiredKey}=your_api_key_here`)
-  console.error(`   3. Or switch AI model in: /apps/api/src/services/llmPipeline.ts (line 7)`)
+  console.error(`   3. Or switch AI model in: /apps/api/src/services/planCompliantLLMPipeline.ts (line 7)`)
   console.error('')
   process.exit(1)
 }

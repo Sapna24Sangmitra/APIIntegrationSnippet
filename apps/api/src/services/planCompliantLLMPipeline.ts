@@ -1,6 +1,10 @@
 import axios from 'axios'
+import Anthropic from '@anthropic-ai/sdk'
 import type { RepoAnalysis } from './githubAnalyzer'
 import type { NPMAnalysis } from './npmAnalyzer'
+
+// Set this to test different LLM providers
+export const ModeToUse: 'openai' | 'anthropic' = 'openai'
 
 export interface LLMAnalysisStep {
   step: string
@@ -22,14 +26,33 @@ export interface PlanCompliantResult {
 }
 
 export class PlanCompliantLLMPipeline {
-  private apiKey: string
-  private model: string = 'gpt-4'
-  private baseUrl = 'https://api.openai.com/v1'
+  private openaiApiKey: string
+  private anthropicApiKey: string
+  private model: string = ''
+  private baseUrl: string = ''
+  private anthropicClient?: Anthropic
 
   constructor() {
-    this.apiKey = process.env.OPENAI_API_KEY || ''
-    if (!this.apiKey) {
-      throw new Error('OpenAI API key is required')
+    this.openaiApiKey = process.env.OPENAI_API_KEY || ''
+    this.anthropicApiKey = process.env.ANTHROPIC_API_KEY || ''
+    
+    if (ModeToUse === 'openai') {
+      this.model = 'gpt-5-mini'
+      this.baseUrl = 'https://api.openai.com/v1'
+      if (!this.openaiApiKey) {
+        throw new Error('OpenAI API key is required. Please set OPENAI_API_KEY environment variable.')
+      }
+    } else if (ModeToUse === 'anthropic') {
+      this.model = 'claude-sonnet-4-20250514'
+      this.baseUrl = ''
+      if (!this.anthropicApiKey) {
+        throw new Error('Anthropic API key is required. Please set ANTHROPIC_API_KEY environment variable.')
+      }
+      this.anthropicClient = new Anthropic({
+        apiKey: this.anthropicApiKey,
+      })
+    } else {
+      throw new Error('Invalid ModeToUse configuration')
     }
   }
 
@@ -274,7 +297,7 @@ Documentation: ${structure.documentationFiles?.slice(0, 5).join(', ') || 'None'}
       return 'No type definitions found'
     }
     
-    const tsFiles = repoAnalysis.structure.sourceFiles?.filter(f => 
+    const tsFiles = repoAnalysis.structure.sourceFiles?.filter((f: string) => 
       f.endsWith('.d.ts') || f.endsWith('.ts')
     ) || []
     
@@ -370,31 +393,61 @@ Documentation: ${structure.documentationFiles?.slice(0, 5).join(', ') || 'None'}
 
   private async callLLM(prompt: string): Promise<string> {
     try {
-      const response = await axios.post(`${this.baseUrl}/chat/completions`, {
-        model: this.model,
-        messages: [
-          {
-            role: 'system',
-            content: 'You are an expert technical writer creating API documentation. Be precise, practical, and focus on what developers actually need to know.'
-          },
-          {
-            role: 'user',
-            content: prompt
-          }
-        ],
-        max_tokens: 1500,
-        temperature: 0.2 // Lower temperature for more consistent output
-      }, {
-        headers: {
-          'Authorization': `Bearer ${this.apiKey}`,
-          'Content-Type': 'application/json'
-        }
-      })
-
-      return response.data.choices[0]?.message?.content || ''
+      if (ModeToUse === 'openai') {
+        return await this.callOpenAI(prompt)
+      } else if (ModeToUse === 'anthropic') {
+        return await this.callAnthropic(prompt)
+      }
+      throw new Error('Invalid ModeToUse configuration')
     } catch (error: any) {
       console.error('LLM API error:', error.response?.data || error.message)
       throw new Error('Failed to generate LLM response')
     }
+  }
+
+  private async callOpenAI(prompt: string): Promise<string> {
+    const response = await axios.post(`${this.baseUrl}/chat/completions`, {
+      model: this.model,
+      messages: [
+        {
+          role: 'system',
+          content: 'You are an expert technical writer creating API documentation. Be precise, practical, and focus on what developers actually need to know.'
+        },
+        {
+          role: 'user',
+          content: prompt
+        }
+      ],
+      // max_tokens: 1500,
+      // temperature: 0.2
+    }, {
+      headers: {
+        'Authorization': `Bearer ${this.openaiApiKey}`,
+        'Content-Type': 'application/json'
+      }
+    })
+
+    return response.data.choices[0]?.message?.content || ''
+  }
+
+  private async callAnthropic(prompt: string): Promise<string> {
+    if (!this.anthropicClient) {
+      throw new Error('Anthropic client not initialized')
+    }
+
+    const response = await this.anthropicClient.messages.create({
+      model: this.model,
+      max_tokens: 1500,
+      temperature: 0.2,
+      system: 'You are an expert technical writer creating API documentation. Be precise, practical, and focus on what developers actually need to know.',
+      messages: [
+        {
+          role: 'user',
+          content: prompt
+        }
+      ]
+    })
+
+    return response.content[0]?.type === 'text' ? response.content[0].text : ''
   }
 }
